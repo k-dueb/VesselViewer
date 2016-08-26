@@ -20,7 +20,7 @@ UnityEngine.dll
 UnityEngine.UI.dll
 Vectrosity.dll
 "
-rm -f  $pluginDir/.xml $pluginDir/.pdb
+rm -f  $pluginDir/*.xml $pluginDir/*.pdb
 for i in $toremove; do
 	rm -f $pluginDir/$i
 done

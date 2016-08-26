@@ -30,3 +30,5 @@ D:\Users\jbb\github\VesselViewer\VesselView\GameData\VesselView\Plugins\UnityEng
 D:\Users\jbb\github\VesselViewer\VesselView\obj\Release\VesselView.csprojResolveAssemblyReference.cache
 D:\Users\jbb\github\VesselViewer\VesselView\obj\Release\VesselView.dll
 D:\Users\jbb\github\VesselViewer\VesselView\obj\Release\VesselView.pdb
+D:\Users\jbb\github\VesselViewer\GameData\VesselView\Plugins\VesselView.dll
+D:\Users\jbb\github\VesselViewer\GameData\VesselView\Plugins\VesselView.pdb

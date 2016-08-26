@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
+using KSP.UI.Screens;
 
 namespace VesselView
 {
@@ -1564,8 +1565,8 @@ namespace VesselView
                     //first we need an appropriate gradient, so check if we have it
                     //and make it if we dont, or if its too small
                     if (stagesThisTimeMax < part.inverseStage) stagesThisTimeMax = part.inverseStage;
-
-                    int neededColors = Math.Max(stagesLastTime, Math.Max(Staging.StageCount, stagesThisTimeMax)) + 1;
+                    
+                    int neededColors = Math.Max(stagesLastTime, Math.Max(StageManager.StageCount, stagesThisTimeMax)) + 1;
                     if (stageGradient == null)
                     {
                         stageGradient = genColorGradient(neededColors);

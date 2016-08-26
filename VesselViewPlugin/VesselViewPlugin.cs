@@ -261,6 +261,9 @@ namespace VesselView
 
         }
 
+        bool doDrawGUI = false;
+        bool doDrawGUIC = false;
+
         /// <summary>
         /// Called after the scene is loaded.
         /// </summary>
@@ -275,11 +278,13 @@ namespace VesselView
                 //Debug.Log("VW button clicked, mouseButton: " + e.MouseButton);
                 if (settings.screenVisible)
                 {
-                    RenderingManager.RemoveFromPostDrawQueue(3, new Callback(drawGUI)); //close the GUI
+                    doDrawGUI = true;
+                    // RenderingManager.RemoveFromPostDrawQueue(3, new Callback(drawGUI)); //close the GUI
                 }
                 else
                 {
-                    RenderingManager.AddToPostDrawQueue(3, new Callback(drawGUI));//start the GUI
+                    doDrawGUI = false;
+                    // RenderingManager.AddToPostDrawQueue(3, new Callback(drawGUI));//start the GUI
                 }
                 settings.screenVisible = !settings.screenVisible;
             };
@@ -291,14 +296,24 @@ namespace VesselView
                 //Debug.Log("VW button clicked, mouseButton: " + e.MouseButton);
                 if (settings.configScreenVisible)
                 {
-                    RenderingManager.RemoveFromPostDrawQueue(3, new Callback(drawGUIC)); //close the GUI
+                    doDrawGUIC = true;
+                    // RenderingManager.RemoveFromPostDrawQueue(3, new Callback(drawGUIC)); //close the GUI
                 }
                 else
                 {
-                    RenderingManager.AddToPostDrawQueue(3, new Callback(drawGUIC));//start the GUI
+                    doDrawGUIC = false;
+                    // RenderingManager.AddToPostDrawQueue(3, new Callback(drawGUIC));//start the GUI
                 }
                 settings.configScreenVisible = !settings.configScreenVisible;
             };
+        }
+
+        private void OnGUI()
+        {
+            if (doDrawGUI)
+                drawGUI();
+            if (doDrawGUIC)
+                drawGUIC();
         }
 
         /// <summary>

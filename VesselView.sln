@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.30110.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VesselViewPlugin", "VesselViewPlugin\VesselViewPlugin.csproj", "{BD4A4AA0-5A4E-4E64-9A91-577027CA30B3}"
 EndProject
@@ -22,11 +22,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VVDiscoDisplay", "VVDiscoDi
 		{A4582184-D575-4D3C-97D5-5A00FDAC73FC} = {A4582184-D575-4D3C-97D5-5A00FDAC73FC}
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F7A24971-66BE-48BF-8245-F9262CA3DAF6}"
+	ProjectSection(SolutionItems) = preProject
+		buildRelease.sh = buildRelease.sh
+		clean.sh = clean.sh
+		GameData\VesselView\VesselView.version = GameData\VesselView\VesselView.version
+	EndProjectSection
+EndProject
 Global
-	GlobalSection(SubversionScc) = preSolution
-		Svn-Managed = True
-		Manager = AnkhSVN - Subversion Support for Visual Studio
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -55,5 +58,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(SubversionScc) = preSolution
+		Svn-Managed = True
+		Manager = AnkhSVN - Subversion Support for Visual Studio
 	EndGlobalSection
 EndGlobal

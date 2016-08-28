@@ -25,6 +25,8 @@ for i in $toremove; do
 	rm -f $pluginDir/$i
 done
 
+cat GameData/VesselView/VesselView.version
 echo "Enter version: "
 read v
-zip -9r VesselView-$v GameData
+set -x
+zip -9r VesselView-${v}.zip GameData

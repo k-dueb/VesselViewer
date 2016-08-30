@@ -25,6 +25,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F7A24971-66BE-48BF-8245-F9262CA3DAF6}"
 	ProjectSection(SolutionItems) = preProject
 		buildRelease.sh = buildRelease.sh
+		Changelog.txt = Changelog.txt
 		clean.sh = clean.sh
 		GameData\VesselView\VesselView.version = GameData\VesselView\VesselView.version
 	EndProjectSection

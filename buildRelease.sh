@@ -29,4 +29,9 @@ cat GameData/VesselView/VesselView.version
 echo "Enter version: "
 read v
 set -x
-zip -9r VesselView-${v}.zip GameData
+
+RELEASEDIR="/d/Users/jbb/release"
+FILE="${RELEASEDIR}/VesselView-${v}.zip"
+[ -f $FILE ] && rm -f $FILE
+
+zip -9r $FILE GameData

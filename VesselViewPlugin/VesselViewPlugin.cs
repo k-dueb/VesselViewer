@@ -331,7 +331,7 @@ namespace VesselView
         /// </summary>
         void Update()
         {
-            if (settings.screenVisible) 
+            if (settings != null && settings.screenVisible) 
             {
                 viewer.drawCall(screen);
             }        
@@ -342,10 +342,10 @@ namespace VesselView
         /// <summary>
         /// Called at a fixed time interval determined by the physics time step.
         /// </summary>
-        void FixedUpdate()
-        {
+        //void FixedUpdate()
+        //{
 
-        }
+        //}
 
         /// <summary>
         /// Called when the game is leaving the scene (or exiting). Perform any clean up work here.

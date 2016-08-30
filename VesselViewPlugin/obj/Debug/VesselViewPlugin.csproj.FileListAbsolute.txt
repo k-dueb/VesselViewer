@@ -8,3 +8,8 @@ D:\Users\jbb\github\aa\VesselViewer\VesselViewPlugin\obj\Debug\VesselViewPlugin.
 D:\Users\jbb\github\aa\VesselViewer\VesselViewPlugin\obj\Debug\VesselViewPlugin.pdb
 D:\Program Files (x86)\Steam\steamapps\common\Kerbal Space Program\GameData\VesselView\Plugins\VesselViewPlugin.dll
 D:\Program Files (x86)\Steam\steamapps\common\Kerbal Space Program\GameData\VesselView\Plugins\VesselViewPlugin.pdb
+D:\Users\jbb\github\VesselViewer\GameData\VesselView\Plugins\VesselViewPlugin.dll
+D:\Users\jbb\github\VesselViewer\GameData\VesselView\Plugins\VesselViewPlugin.pdb
+D:\Users\jbb\github\VesselViewer\VesselViewPlugin\obj\Debug\VesselViewPlugin.csprojResolveAssemblyReference.cache
+D:\Users\jbb\github\VesselViewer\VesselViewPlugin\obj\Debug\VesselViewPlugin.dll
+D:\Users\jbb\github\VesselViewer\VesselViewPlugin\obj\Debug\VesselViewPlugin.pdb

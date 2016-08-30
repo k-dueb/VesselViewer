@@ -1,0 +1,5 @@
+0.8.0		Initial release by LGG
+			Fixed bug with toolbar on 1.1.3
+
+0.8.1		Added check in VesselViewPlugin Start() that the settings is not null before referencing
+			commented out FixedUpdate in VesselViewPlugin since it had nothing in it

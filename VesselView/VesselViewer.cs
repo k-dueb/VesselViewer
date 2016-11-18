@@ -1573,9 +1573,9 @@ namespace VesselView
                     //colors the parts by their inverse stage.
                     //first we need an appropriate gradient, so check if we have it
                     //and make it if we dont, or if its too small
-                    if (stagesThisTimeMax < part.inverseStage + 1) stagesThisTimeMax = part.inverseStage + 1;
+                    if (stagesThisTimeMax < part.inverseStage) stagesThisTimeMax = part.inverseStage;
 
-                    int neededColors = Math.Max(stagesLastTime, Math.Max(StageManager.StageCount, stagesThisTimeMax));
+                    int neededColors = Math.Max(stagesLastTime, Math.Max(StageManager.StageCount, stagesThisTimeMax)) + 1;
                     if (stageGradient == null)
                     {
                         stageGradient = genColorGradient(neededColors);
@@ -1584,10 +1584,10 @@ namespace VesselView
                     {
                         stageGradient = genColorGradient(neededColors);
                     }
-                    //now return the color 
+                    //now return the color
                     //print("part " + part.name + " inv. stage " + part.inverseStage);
-                    if (part.inverseStage + 1 >= stageGradient.Length) return Color.magenta;
-                    return stageGradient[part.inverseStage + 1];
+                    if ((part.inverseStage < 0) || (part.inverseStage >= stageGradient.Length)) return Color.magenta;
+                    return stageGradient[part.inverseStage];
                 case (int)ViewerConstants.COLORMODE.HEAT:
                     //colors the part according to how close its to exploding due to overheat
                     Color color = new Color(0.2f, 0.2f, 0.2f);

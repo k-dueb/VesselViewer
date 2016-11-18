@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
 using KSP.UI.Screens;
+using System.Linq;
 
 namespace VesselView
 {
@@ -728,8 +729,8 @@ namespace VesselView
 
         private void renderCOM(Matrix4x4 screenMatrix)
         {
-            
-            Vector3 COM = FlightGlobals.ActiveVessel.findLocalCenterOfMass();
+//            Vector3 COM = FlightGlobals.ActiveVessel.findLocalCenterOfMass();
+            Vector3 COM = FlightGlobals.ActiveVessel.localCoM;
             //MonoBehaviour.print("COM>"+COM);
             Matrix4x4 transMatrix = genTransMatrix(FlightGlobals.ActiveVessel.rootPart.transform, FlightGlobals.ActiveVessel, true);
             //transMatrix = screenMatrix * transMatrix;
@@ -739,10 +740,12 @@ namespace VesselView
             float div = 6 / basicSettings.scaleFact;
             renderIcon(new Rect(-div + COM.x, -div + COM.y, 2 * div, 2 * div), screenMatrix, Color.magenta, (int)ViewerConstants.ICONS.SQUARE_DIAMOND);
         }
-
+/*
+        // Never used
         private void renderCOP(Matrix4x4 screenMatrix)
         {
-            Vector3 COP = FlightGlobals.ActiveVessel.findLocalCenterOfPressure();
+//            Vector3 COP = FlightGlobals.ActiveVessel.findLocalCenterOfPressure();
+            Vector3 COP = FlightGlobals.ActiveVessel.;
             //MonoBehaviour.print("COM>"+COM);
             Matrix4x4 transMatrix = genTransMatrix(FlightGlobals.ActiveVessel.rootPart.transform, FlightGlobals.ActiveVessel, true);
             //transMatrix = screenMatrix * transMatrix;
@@ -753,9 +756,11 @@ namespace VesselView
             renderIcon(new Rect(-div + COP.x, -div + COP.y, 2 * div, 2 * div), screenMatrix, Color.cyan, (int)ViewerConstants.ICONS.SQUARE_DIAMOND);
         }
 
+        // Never used
         private void renderMOI(Matrix4x4 screenMatrix)
         {
-            Vector3 MOI = FlightGlobals.ActiveVessel.findLocalMOI();
+//            Vector3 MOI = FlightGlobals.ActiveVessel.findLocalMOI();
+            Vector3 MOI = FlightGlobals.ActiveVessel.MOI;
             //MonoBehaviour.print("COM>"+COM);
             Matrix4x4 transMatrix = genTransMatrix(FlightGlobals.ActiveVessel.rootPart.transform, FlightGlobals.ActiveVessel, true);
             //transMatrix = screenMatrix * transMatrix;
@@ -765,7 +770,7 @@ namespace VesselView
             float div = 6 / basicSettings.scaleFact;
             renderIcon(new Rect(-div + MOI.x, -div + MOI.y, 2 * div, 2 * div), screenMatrix, Color.yellow, (int)ViewerConstants.ICONS.SQUARE_DIAMOND);
         }
-
+*/
         /// <summary>
         /// Renders a single part and adds all its children to the draw queue.
         /// Also adds its bounding box to the bounding box queue.
@@ -980,7 +985,8 @@ namespace VesselView
                 }
             }
 
-            SkinnedMeshRenderer[] skinnedMeshes = (SkinnedMeshRenderer[])part.FindModelComponents<SkinnedMeshRenderer>();
+//            SkinnedMeshRenderer[] skinnedMeshes = (SkinnedMeshRenderer[])part.FindModelComponents<SkinnedMeshRenderer>();
+            SkinnedMeshRenderer[] skinnedMeshes = part.FindModelComponents<SkinnedMeshRenderer>().ToArray();
             foreach (SkinnedMeshRenderer smesh in skinnedMeshes)
             {
                 if (smesh.gameObject.activeInHierarchy)
@@ -1564,9 +1570,9 @@ namespace VesselView
                     //colors the parts by their inverse stage.
                     //first we need an appropriate gradient, so check if we have it
                     //and make it if we dont, or if its too small
-                    if (stagesThisTimeMax < part.inverseStage) stagesThisTimeMax = part.inverseStage;
-                    
-                    int neededColors = Math.Max(stagesLastTime, Math.Max(StageManager.StageCount, stagesThisTimeMax)) + 1;
+                    if (stagesThisTimeMax < part.inverseStage + 1) stagesThisTimeMax = part.inverseStage + 1;
+
+                    int neededColors = Math.Max(stagesLastTime, Math.Max(StageManager.StageCount, stagesThisTimeMax));
                     if (stageGradient == null)
                     {
                         stageGradient = genColorGradient(neededColors);
@@ -1577,8 +1583,8 @@ namespace VesselView
                     }
                     //now return the color 
                     //print("part " + part.name + " inv. stage " + part.inverseStage);
-                    if (part.inverseStage >= stageGradient.Length) return Color.magenta;
-                    return stageGradient[part.inverseStage];
+                    if (part.inverseStage + 1 >= stageGradient.Length) return Color.magenta;
+                    return stageGradient[part.inverseStage + 1];
                 case (int)ViewerConstants.COLORMODE.HEAT:
                     //colors the part according to how close its to exploding due to overheat
                     Color color = new Color(0.2f, 0.2f, 0.2f);
@@ -1598,7 +1604,8 @@ namespace VesselView
                     }
                 case (int)ViewerConstants.COLORMODE.FUEL:
                     Color color2 = Color.red;
-                    List<PartResource> resList = part.Resources.list;
+//                  List<PartResource> resList = part.Resources.list;
+                    List<PartResource> resList = part.Resources.dict.Values.ToList();
                     int resCount = resList.Count;
                     int emptyRes = 0;
                     double totalResFraction = 0;

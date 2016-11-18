@@ -1319,6 +1319,8 @@ namespace VesselView
         /// <returns></returns>
         private Matrix4x4 genTransMatrix(Transform meshTrans, Vessel vessel, bool zeroFlatter)
         {
+            //extraRot
+
             //the mesh transform matrix in local space (which is what we want)
             //is essentialy its world transform matrix minus the transformations
             //applied to the whole vessel.
@@ -1347,6 +1349,7 @@ namespace VesselView
                             break;
                     }
                 }
+
             int spinAxis = 0;
             if (customMode == null)
                 {

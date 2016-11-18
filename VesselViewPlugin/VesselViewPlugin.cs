@@ -25,10 +25,10 @@ namespace VesselView
         private VesselViewer viewer;
         private ViewerSettings settings;
 
-        private int customMode = -1;
+        private int customMode = 0;
         private static List<CustomModeSettings> customModes = new List<CustomModeSettings>();
 
-        public static void registerCustomMode(CustomModeSettings settings) 
+        public static void registerCustomMode(CustomModeSettings settings)
         {
             customModes.Add(settings);
         }
@@ -60,11 +60,21 @@ namespace VesselView
             //setup the style
             GUIStyle mySty = new GUIStyle(GUI.skin.button);
             GUIStyle myStyL = new GUIStyle(GUI.skin.label);
+            GUIStyle myStyT = new GUIStyle(GUI.skin.toggle);
+
+            int h = 16;
+
+            mySty.fontSize = 12;
+            mySty.fixedHeight = h;
+            myStyL.fontSize = 12;
+            myStyT.fontSize = 12;
+
             mySty.normal.textColor = mySty.focused.textColor = Color.white;
             mySty.hover.textColor = mySty.active.textColor = Color.yellow;
             mySty.onNormal.textColor = mySty.onFocused.textColor = mySty.onHover.textColor = mySty.onActive.textColor = Color.green;
             mySty.padding = new RectOffset(8, 8, 8, 8);
 
+            
             if (windowID == 1)
             {
                 //draw the texture
@@ -73,19 +83,57 @@ namespace VesselView
             if (windowID == 2)
             {
                 //and now, buttons. lots of buttons.
-                GUILayout.BeginHorizontal();
+                GUILayout.BeginHorizontal(GUILayout.Height(h));
                 GUILayout.Label("Display configuration", myStyL, GUILayout.ExpandWidth(true));
                 GUILayout.EndHorizontal();
+                GUILayout.BeginHorizontal(GUILayout.Height(h));
+
+                GUILayout.Label("Orientation: ", myStyL);
+                settings.drawPlane = GUILayout.SelectionGrid(settings.drawPlane, ViewerConstants.PLANES, ViewerConstants.PLANES.Length, mySty);
+
+#if false
+                for (int i = 0; i < ViewerConstants.PLANES.Length; i++)
+                {
+                    bool b = false;
+                    if (i == settings.drawPlane)
+                        b = true;
+                    GUILayout.BeginVertical();
+                    b1 = GUILayout.Toggle(b, ViewerConstants.PLANES[i]);
+                    GUILayout.EndVertical();
+                    if ()
+                }
+#endif
+                GUILayout.EndHorizontal();
+#if false
                 GUILayout.BeginHorizontal();
+
                 if (GUILayout.Button("Orientation:" + ViewerConstants.PLANES[settings.drawPlane], mySty, GUILayout.ExpandWidth(true)))//GUILayout.Button is "true" when clicked
                 {
                     settings.drawPlane++;
                     if (settings.drawPlane == ViewerConstants.PLANES.Length) settings.drawPlane = 0;
                 }
+#endif
+                GUILayout.BeginHorizontal(GUILayout.Height(h));
+                GUILayout.BeginVertical(GUILayout.Height(h));
+                settings.autoCenter = GUILayout.Toggle(settings.autoCenter, "Autocentering", myStyT);
+                GUILayout.EndVertical();
+
+                GUILayout.BeginVertical(GUILayout.Height(h));
+                settings.centerOnRootH = GUILayout.Toggle(settings.centerOnRootH, "Hor. root center", myStyT);
+                GUILayout.EndVertical();
+
+                GUILayout.BeginVertical(GUILayout.Height(h));
+                settings.centerOnRootV = GUILayout.Toggle(settings.centerOnRootV, "Ver. root center", myStyT);
+                GUILayout.EndVertical();
+                GUILayout.EndHorizontal();
+
+                GUILayout.BeginHorizontal(GUILayout.Height(h));
+#if false
                 if (GUILayout.Button("Autocentering:" + settings.autoCenter, mySty, GUILayout.ExpandWidth(true)))//GUILayout.Button is "true" when clicked
                 {
                     settings.autoCenter = !settings.autoCenter;
                 }
+
                 if (GUILayout.Button("Hor. root center:" + settings.centerOnRootH, mySty, GUILayout.ExpandWidth(true)))//GUILayout.Button is "true" when clicked
                 {
                     settings.centerOnRootH = !settings.centerOnRootH;
@@ -94,12 +142,16 @@ namespace VesselView
                 {
                     settings.centerOnRootV = !settings.centerOnRootV;
                 }
+#endif
+                GUILayout.Label("Autoscaling: ", myStyL);
+                settings.centerRescale = GUILayout.SelectionGrid(settings.centerRescale, ViewerConstants.RESCALEMODES, ViewerConstants.RESCALEMODES.Length, mySty);
+#if false
                 if (GUILayout.Button("Autoscaling:" + ViewerConstants.RESCALEMODES[settings.centerRescale], mySty, GUILayout.ExpandWidth(true)))//GUILayout.Button is "true" when clicked
                 {
                     settings.centerRescale++;
                     if (settings.centerRescale == ViewerConstants.centerRescaleMAX) settings.centerRescale = 0;
                 }
-
+#endif
                 /*if (GUILayout.Button("Scale:" + settings.scaleFact, mySty, GUILayout.ExpandWidth(true)))//GUILayout.Button is "true" when clicked
                 {
                     settings.scalePos++;
@@ -113,10 +165,10 @@ namespace VesselView
 
                 if (!settings.autoCenter)
                 {
-                    GUILayout.BeginHorizontal();
+                    GUILayout.BeginHorizontal(GUILayout.Height(h));
                     GUILayout.Label("Manual positioning", myStyL, GUILayout.ExpandWidth(true));
                     GUILayout.EndHorizontal();
-                    GUILayout.BeginHorizontal();
+                    GUILayout.BeginHorizontal(GUILayout.Height(h));
                     if (GUILayout.Button("Up", mySty, GUILayout.ExpandWidth(true)))//GUILayout.Button is "true" when clicked
                     {
                         viewer.manuallyOffset(0, ViewerConstants.OFFSET_MODS[settings.scalePos]);
@@ -136,21 +188,50 @@ namespace VesselView
                     if (GUILayout.Button("Center", mySty, GUILayout.ExpandWidth(true)))//GUILayout.Button is "true" when clicked
                     {
                         viewer.nilOffset(screen.width, screen.height);
-                    } 
+                    }
                     GUILayout.EndHorizontal();
                 }
-                GUILayout.BeginHorizontal();
+                GUILayout.BeginHorizontal(GUILayout.Height(h));
+                GUILayout.Label("Autorotation axis:", myStyL);
+                settings.spinAxis = GUILayout.SelectionGrid(settings.spinAxis, ViewerConstants.AXES, ViewerConstants.AXES.Length, mySty);
+                GUILayout.EndHorizontal();
+
+#if false
                 if (GUILayout.Button("Autorotation axis:" + ViewerConstants.AXES[settings.spinAxis], mySty, GUILayout.ExpandWidth(true)))//GUILayout.Button is "true" when clicked
                 {
                     settings.spinAxis++;
                     if (settings.spinAxis == ViewerConstants.spinAxisMAX) settings.spinAxis = 0;
                 }
+#endif
+                GUILayout.BeginHorizontal(GUILayout.Height(h));
+                GUILayout.Label("Autorotation speed:", myStyL);
+                settings.spinSpeed = GUILayout.SelectionGrid(settings.spinSpeed, ViewerConstants.SPIN_SPEEDS, ViewerConstants.SPIN_SPEEDS.Length, mySty);
+                GUILayout.EndHorizontal();
+#if false
                 if (GUILayout.Button("Autorotation speed:" + ViewerConstants.SPIN_SPEEDS[settings.spinSpeed], mySty, GUILayout.ExpandWidth(true)))//GUILayout.Button is "true" when clicked
                 {
                     settings.spinSpeed++;
                     if (settings.spinSpeed == ViewerConstants.spinSpeedMAX) settings.spinSpeed = 0;
                 }
+#endif
+                GUILayout.BeginHorizontal(GUILayout.Height(h));
+                string[] customModeAr = new string[customModes.Count + 1];
+                customModeAr[0] = "Inactive";
+                int i = 1;
+                foreach (var s in customModes)
+                {
+                    customModeAr[i++] = s.name;
+                }
+                GUILayout.Label("Custom mode: ", myStyL);
+                customMode = GUILayout.SelectionGrid(customMode, customModeAr, customModes.Count + 1, mySty);
+                if (customMode != 0)
+                    viewer.customMode = (customModes.ToArray())[customMode - 1];
+                else
+                    viewer.customMode = null;
+                GUILayout.EndHorizontal();
+#if false
                 String customModeName = "Inactive";
+
                 if (customModes.Count > 0 & customMode >= 0) customModeName = (customModes.ToArray())[customMode].name;
                 if (GUILayout.Button("Custom mode:" + customModeName, mySty, GUILayout.ExpandWidth(true)))//GUILayout.Button is "true" when clicked
                 {
@@ -160,15 +241,40 @@ namespace VesselView
                     else viewer.customMode = null;
                 }
                 GUILayout.EndHorizontal();
-                GUILayout.BeginHorizontal();
+#endif
+                GUILayout.BeginHorizontal(GUILayout.Height(h));
                 GUILayout.Label("Draw modes", myStyL, GUILayout.ExpandWidth(true));
                 GUILayout.EndHorizontal();
+
+                GUILayout.BeginHorizontal(GUILayout.Height(h));
+                GUILayout.Label("Mesh:", myStyL);
+                settings.colorModeFillDull = GUILayout.Toggle(settings.colorModeFillDull, "Dull", myStyT);
+                GUILayout.EndHorizontal();
+                GUILayout.BeginHorizontal(GUILayout.Height(h));
+                settings.colorModeFill = GUILayout.SelectionGrid(settings.colorModeFill, ViewerConstants.COLORMODES, ViewerConstants.COLORMODES.Length, mySty);
+               // GUILayout.EndHorizontal();
+               // GUILayout.BeginHorizontal();
+               
+                GUILayout.EndHorizontal();
+#if false
                 GUILayout.BeginHorizontal();
                 if (GUILayout.Button("Mesh:" + ViewerConstants.COLORMODES[settings.colorModeFill], mySty, GUILayout.ExpandWidth(true)))//GUILayout.Button is "true" when clicked
                 {
                     settings.colorModeFill++;
                     if (settings.colorModeFill == ViewerConstants.COLORMODES.Length) settings.colorModeFill = 0;
                 }
+#endif
+
+                GUILayout.BeginHorizontal(GUILayout.Height(h));
+                GUILayout.Label("Wire:", myStyL);
+                settings.colorModeWireDull = GUILayout.Toggle(settings.colorModeWireDull, "Dull", myStyT);
+                GUILayout.EndHorizontal();
+                GUILayout.BeginHorizontal(GUILayout.Height(h));
+                settings.colorModeWire = GUILayout.SelectionGrid(settings.colorModeWire, ViewerConstants.COLORMODES, ViewerConstants.COLORMODES.Length, mySty);
+               // GUILayout.EndHorizontal();
+              
+                GUILayout.EndHorizontal();
+#if false
                 if (GUILayout.Button("Dull:" + settings.colorModeFillDull, mySty, GUILayout.ExpandWidth(true)))//GUILayout.Button is "true" when clicked
                 {
                     settings.colorModeFillDull = !settings.colorModeFillDull;
@@ -178,10 +284,25 @@ namespace VesselView
                     settings.colorModeWire++;
                     if (settings.colorModeWire == ViewerConstants.COLORMODES.Length) settings.colorModeWire = 0;
                 }
+
                 if (GUILayout.Button("Dull:" + settings.colorModeWireDull, mySty, GUILayout.ExpandWidth(true)))//GUILayout.Button is "true" when clicked
                 {
                     settings.colorModeWireDull = !settings.colorModeWireDull;
                 }
+#endif
+
+                GUILayout.BeginHorizontal(GUILayout.Height(h));
+                GUILayout.Label("Bounds:", myStyL);
+                settings.colorModeBoxDull = GUILayout.Toggle(settings.colorModeBoxDull, "Dull", myStyT);
+                GUILayout.EndHorizontal();
+                GUILayout.BeginHorizontal(GUILayout.Height(h));
+
+                settings.colorModeBox = GUILayout.SelectionGrid(settings.colorModeBox, ViewerConstants.COLORMODES, ViewerConstants.COLORMODES.Length, mySty);
+                // GUILayout.EndHorizontal();
+                
+                GUILayout.EndHorizontal();
+
+#if false
                 if (GUILayout.Button("Bounds:" + ViewerConstants.COLORMODES[settings.colorModeBox], mySty, GUILayout.ExpandWidth(true)))//GUILayout.Button is "true" when clicked
                 {
                     settings.colorModeBox++;
@@ -192,7 +313,19 @@ namespace VesselView
                     settings.colorModeBoxDull = !settings.colorModeBoxDull;
                 }
                 GUILayout.EndHorizontal();
-                GUILayout.BeginHorizontal();
+#endif
+                GUILayout.BeginHorizontal(GUILayout.Height(h));
+                GUILayout.BeginVertical(GUILayout.Height(h));
+                settings.displayAxes = GUILayout.Toggle(settings.displayAxes, "Axes", myStyT);
+                GUILayout.EndVertical();
+                GUILayout.BeginVertical(GUILayout.Height(h));
+                settings.displayCOM = GUILayout.Toggle(settings.displayCOM, "Center of mass", myStyT);
+                GUILayout.EndVertical();
+                GUILayout.BeginVertical(GUILayout.Height(h));
+                settings.displayEngines = GUILayout.Toggle(settings.displayEngines, "Engine status", myStyT);
+                GUILayout.EndVertical();
+                GUILayout.EndHorizontal();
+#if false
                 if (GUILayout.Button("Axes:" + settings.displayAxes, mySty, GUILayout.ExpandWidth(true)))//GUILayout.Button is "true" when clicked
                 {
                     settings.displayAxes = !settings.displayAxes;
@@ -205,16 +338,28 @@ namespace VesselView
                 {
                     settings.displayEngines = !settings.displayEngines;
                 }
+#endif
+
+                GUILayout.BeginHorizontal(GUILayout.Height(h));
+                GUILayout.Label("Landing assist:", myStyL);
+
+                settings.displayGround = GUILayout.SelectionGrid(settings.displayGround, ViewerConstants.GROUND_DISPMODES, ViewerConstants.GROUND_DISPMODES.Length, mySty);
+                GUILayout.EndHorizontal();
+
+#if false
+                GUILayout.BeginHorizontal(GUILayout.Height(h));
+
                 if (GUILayout.Button("Landing assist:" + ViewerConstants.GROUND_DISPMODES[settings.displayGround], mySty, GUILayout.ExpandWidth(true)))//GUILayout.Button is "true" when clicked
                 {
                     settings.displayGround++;
                     if (settings.displayGround == ViewerConstants.displayGroundMAX) settings.displayGround = 0;
                 }
                 GUILayout.EndHorizontal();
-                GUILayout.BeginHorizontal();
+#endif
+                GUILayout.BeginHorizontal(GUILayout.Height(h));
                 GUILayout.Label("Other configuration", myStyL, GUILayout.ExpandWidth(true));
                 GUILayout.EndHorizontal();
-                GUILayout.BeginHorizontal();
+                GUILayout.BeginHorizontal(GUILayout.Height(h));
                 if (GUILayout.Button("X size:" + screen.width, mySty, GUILayout.ExpandWidth(true)))//GUILayout.Button is "true" when clicked
                 {
                     scrnSizeXpos++;
@@ -240,7 +385,7 @@ namespace VesselView
                 GUILayout.EndHorizontal();
 
             }
-            GUI.DragWindow(new Rect(0, 0, 10000, 20));
+            GUI.DragWindow(); //  new Rect(0, 0, 10000, 20));
         }
 
         private void setupTexture()
@@ -261,9 +406,6 @@ namespace VesselView
 
         }
 
-        bool doDrawGUI = false;
-        bool doDrawGUIC = false;
-
         /// <summary>
         /// Called after the scene is loaded.
         /// </summary>
@@ -275,17 +417,6 @@ namespace VesselView
             button.ToolTip = "Vessel View";
             button.OnClick += (e) =>
             {
-                //Debug.Log("VW button clicked, mouseButton: " + e.MouseButton);
-                if (settings.screenVisible)
-                {
-                    doDrawGUI = true;
-                    // RenderingManager.RemoveFromPostDrawQueue(3, new Callback(drawGUI)); //close the GUI
-                }
-                else
-                {
-                    doDrawGUI = false;
-                    // RenderingManager.AddToPostDrawQueue(3, new Callback(drawGUI));//start the GUI
-                }
                 settings.screenVisible = !settings.screenVisible;
             };
             buttonC = ToolbarManager.Instance.add("VVC", "VVbuttonC");
@@ -293,26 +424,15 @@ namespace VesselView
             buttonC.ToolTip = "Vessel View Config";
             buttonC.OnClick += (e) =>
             {
-                //Debug.Log("VW button clicked, mouseButton: " + e.MouseButton);
-                if (settings.configScreenVisible)
-                {
-                    doDrawGUIC = true;
-                    // RenderingManager.RemoveFromPostDrawQueue(3, new Callback(drawGUIC)); //close the GUI
-                }
-                else
-                {
-                    doDrawGUIC = false;
-                    // RenderingManager.AddToPostDrawQueue(3, new Callback(drawGUIC));//start the GUI
-                }
                 settings.configScreenVisible = !settings.configScreenVisible;
             };
         }
 
         private void OnGUI()
         {
-            if (doDrawGUI)
+            if (settings.screenVisible)
                 drawGUI();
-            if (doDrawGUIC)
+            if (settings.configScreenVisible)
                 drawGUIC();
         }
 
@@ -329,12 +449,12 @@ namespace VesselView
         /// <summary>
         /// Called every frame.
         /// </summary>
-        void Update()
+        void FixedUpdate()
         {
-            if (settings != null && settings.screenVisible) 
+            if (settings != null && settings.screenVisible)
             {
                 viewer.drawCall(screen);
-            }        
+            }
         }
 
 

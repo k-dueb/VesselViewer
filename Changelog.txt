@@ -3,3 +3,6 @@
 
 0.8.1		Added check in VesselViewPlugin Start() that the settings is not null before referencing
 			commented out FixedUpdate in VesselViewPlugin since it had nothing in it
+
+0.8.2		Changes submitted by k-dueb for 1.2.1 compatiblity
+			Redid the config window

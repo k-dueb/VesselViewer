@@ -25,9 +25,8 @@ for i in $toremove; do
 	rm -f $pluginDir/$i
 done
 
+d=`pwd`
 cp /d/Users/jbb/github/MiniAVC.dll ${d}/GameData/VesselView
-
-
 
 v="GameData/VesselView/VesselView.version"
 major=`grep -m 1 MAJOR $v  | cut -f2 -d':' | tr -d , | tr -d '[:space:]'`

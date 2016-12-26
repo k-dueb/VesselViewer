@@ -6,3 +6,7 @@
 
 0.8.2		Changes submitted by k-dueb for 1.2.1 compatiblity
 			Redid the config window
+
+0.8.3
+			Added support for standard application toolbar for VesselViewPlugin
+			Added Settings page for toolbar support

@@ -1591,9 +1591,9 @@ namespace VesselView
                 case (int)ViewerConstants.COLORMODE.HEAT:
                     //colors the part according to how close its to exploding due to overheat
                     Color color = new Color(0.2f, 0.2f, 0.2f);
-                    if (part.maxTemp != 0)
+                    if ((part.maxTemp != 0) && (part.skinMaxTemp != 0))
                     {
-                        double tempDiff = part.temperature / part.maxTemp;
+                        double tempDiff = (part.temperature > part.skinTemperature) ? (part.temperature / part.maxTemp) : (part.skinTemperature / part.skinMaxTemp);
                         //to power of THREE to emphasise overheating parts MORE
                         tempDiff = Math.Pow(tempDiff, 3);
                         //color.g = 0.2f;

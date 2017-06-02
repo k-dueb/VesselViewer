@@ -10,3 +10,6 @@
 0.8.3
 			Added support for standard application toolbar for VesselViewPlugin
 			Added Settings page for toolbar support
+
+0.8.4
+		Thanks to @dueb, now displays temperature correctly
